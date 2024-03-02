@@ -1,6 +1,6 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, Int, ID } from '@nestjs/graphql';
 import { BusinessService } from './business.service';
-import { Business } from './entities/business.entity';
+import { Business } from './schema/business.schema';
 import { CreateBusinessInput } from './dto/create-business.input';
 import { UpdateBusinessInput } from './dto/update-business.input';
 
@@ -18,8 +18,8 @@ export class BusinessResolver {
     return this.businessService.findAll();
   }
 
-  @Query(() => Business, { name: 'business' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
+  @Query(() => Business, { name: 'oneBusiness' })
+  findOne(@Args('id', { type: () => ID }) id: string) {
     return this.businessService.findOne(id);
   }
 
@@ -29,7 +29,7 @@ export class BusinessResolver {
   }
 
   @Mutation(() => Business)
-  removeBusiness(@Args('id', { type: () => Int }) id: number) {
+  removeBusiness(@Args('id', { type: () => ID }) id: string) {
     return this.businessService.remove(id);
   }
 }

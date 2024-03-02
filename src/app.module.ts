@@ -16,7 +16,7 @@ import { MongooseModule } from '@nestjs/mongoose';
       playground: false,
       plugins: [ApolloServerPluginLandingPageLocalDefault()],
     }),
-    MongooseModule.forRoot('mongodb+srv://luisballesteros96:password123456@cluster0.hypi4n8.mongodb.net/businessCenter'),
+    MongooseModule.forRoot('mongodb+srv://luisballesteros96:password123456@cluster0.hypi4n8.mongodb.net/test'),
     BusinessModule,
   ],
   controllers: [AppController],

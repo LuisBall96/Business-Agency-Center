@@ -1,26 +1,45 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateBusinessInput } from './dto/create-business.input';
 import { UpdateBusinessInput } from './dto/update-business.input';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { Business } from './schema/business.schema';
 
 @Injectable()
 export class BusinessService {
-  create(createBusinessInput: CreateBusinessInput) {
-    return 'This action adds a new business';
+  constructor(@InjectModel(Business.name) private businessModel: Model<Business>) {}
+  
+  create(createBusinessInput: CreateBusinessInput): Promise <Business> {
+    const createdBusiness = new this.businessModel(createBusinessInput);
+    return createdBusiness.save();
   }
 
-  findAll() {
-    return `This action returns all business`;
+  findAll(): Promise<Business[]> {
+    return this.businessModel.find().exec();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} business`;
+  async findOne(id: string): Promise<Business> {
+    const oneBusiness = await this.businessModel.findById(id).exec();
+
+    if (!oneBusiness) throw new NotFoundException(`Business with ID ${id} not found`);
+
+    return oneBusiness;
   }
 
-  update(id: number, updateBusinessInput: UpdateBusinessInput) {
-    return `This action updates a #${id} business`;
+  async update(id: string, updateBusinessInput: UpdateBusinessInput): Promise<Business> {
+    
+    const updateBusiness = await this.businessModel.findByIdAndUpdate(id, updateBusinessInput).exec();
+    
+    if (!updateBusiness) throw new NotFoundException(`Business with ID ${id} not found`);
+
+    return updateBusiness
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} business`;
+  async remove(id: string) {
+    const deleteBusiness = await this.businessModel.findByIdAndDelete(id)
+    
+    if (!deleteBusiness) throw new NotFoundException(`Business with ID ${id} not found`);
+
+    return deleteBusiness
   }
 }

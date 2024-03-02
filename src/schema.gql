@@ -3,27 +3,29 @@
 # ------------------------------------------------------
 
 type Business {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  id: ID!
+  name: String!
+  nic: String!
 }
 
 type Query {
-  business(id: Int!): Business!
+  business: [Business!]!
+  oneBusiness(id: ID!): Business!
 }
 
 type Mutation {
   createBusiness(createBusinessInput: CreateBusinessInput!): Business!
   updateBusiness(updateBusinessInput: UpdateBusinessInput!): Business!
-  removeBusiness(id: Int!): Business!
+  removeBusiness(id: ID!): Business!
 }
 
 input CreateBusinessInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  name: String!
+  nic: String!
 }
 
 input UpdateBusinessInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+  name: String
+  nic: String
+  id: ID!
 }
