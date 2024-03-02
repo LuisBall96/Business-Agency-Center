@@ -6,26 +6,73 @@ type Business {
   id: ID!
   name: String!
   nic: String!
+  businessType: BusinessType!
+  businessPropertyType: PropertyType!
+  isCertificate: Boolean
+}
+
+enum BusinessType {
+  ProfitMotive
+  Nonprofit
+}
+
+enum PropertyType {
+  Private
+  Public
+}
+
+type Employee {
+  id: ID!
+  employeeName: String!
+  employeeType: EmployeeTypes!
+}
+
+enum EmployeeTypes {
+  Backend
+  Frontend
+  QA
 }
 
 type Query {
   business: [Business!]!
   oneBusiness(id: ID!): Business!
+  employees: [Employee!]!
+  employee(id: String!): Employee!
 }
 
 type Mutation {
   createBusiness(createBusinessInput: CreateBusinessInput!): Business!
   updateBusiness(updateBusinessInput: UpdateBusinessInput!): Business!
   removeBusiness(id: ID!): Business!
+  createEmployee(createEmployeeInput: CreateEmployeeInput!): Employee!
+  updateEmployee(updateEmployeeInput: UpdateEmployeeInput!): Employee!
+  removeEmployee(id: Int!): Employee!
 }
 
 input CreateBusinessInput {
   name: String!
   nic: String!
+  businessType: BusinessType! = ProfitMotive
+  businessPropertyType: PropertyType! = Private
+  isCertificate: Boolean
 }
 
 input UpdateBusinessInput {
   name: String
   nic: String
+  businessType: BusinessType = ProfitMotive
+  businessPropertyType: PropertyType = Private
+  isCertificate: Boolean
   id: ID!
+}
+
+input CreateEmployeeInput {
+  employeeName: String!
+  employeeType: EmployeeTypes!
+}
+
+input UpdateEmployeeInput {
+  employeeName: String
+  employeeType: EmployeeTypes
+  id: String!
 }

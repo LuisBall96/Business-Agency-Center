@@ -7,6 +7,7 @@ import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin
 import { join } from 'path';
 import { BusinessModule } from './business/business.module';
 import { MongooseModule } from '@nestjs/mongoose';
+import { EmployeeModule } from './employee/employee.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { MongooseModule } from '@nestjs/mongoose';
     }),
     MongooseModule.forRoot('mongodb+srv://luisballesteros96:password123456@cluster0.hypi4n8.mongodb.net/test'),
     BusinessModule,
+    EmployeeModule,
   ],
   controllers: [AppController],
   providers: [AppService],
